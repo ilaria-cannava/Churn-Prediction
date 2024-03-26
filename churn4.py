@@ -17,20 +17,10 @@ def load_model():
 
 model = load_model()
 
-#Function for making predictions
-def churn_prediction_cvs(input_df):
+# Function for making predictions
+def churn_prediction(input_df):
     prediction = model.predict(input_df)
-    return prediction_csv
-
-def churn_prediction(input):
-    input_array = np.asarray(input)
-    input_reshape = input_array.reshape(1, -1)
-    prediction = model.predict(input_reshape)
-    
-    if prediction[0] == 0:
-        return 0  # Return 0 for low churn risk
-    else:
-        return 1  # Return 1 for high churn risk
+    return prediction
 
 
 # Function for calculating churn risk levels
@@ -54,50 +44,18 @@ def main():
     st.set_page_config(page_title='Customer churn prediction', layout='wide')
     
     # Add image
-    image = Image.open('customer_service_2.png')
+    image = Image.open('customer_service_1.jpg')
     st.image(image, use_column_width=False)
     
     # Add title
     st.title('Customer Churn Risk Prediction')
  
-    # Option to input data manually
-    st.write('### Manually Input Data for a single customer')
-    MonthlyMinutes = st.number_input('Monthly minutes usage:', min_value=0, step=1)
-    TotalRecurringCharge = st.number_input('Total recurring charges:', min_value=0, step=1)
-    PercChangeMinutes = st.number_input('Minutes usage change over the given period', min_value=-1000, step=1)
-    UniqueSubs = st.number_input('Number of Unique Subscriptions:', min_value=0, step=1)
-    Handsets = st.number_input('How many handsets the customer has:', min_value=0, step=1)
-    CurrentEquipmentDays = st.number_input('How many days is the current equipment old:', min_value=0, step=1)
-    HandsetRefurbished = st.number_input('Owns a refurbished handset? (yes=1, no=0):', min_value=0, max_value=1, step=1)
-    HandsetWebCapable = st.number_input('Owns a web capable handset? (yes=1, no=0):', min_value=0, max_value=1, step=1)
-    RetentionCalls = st.number_input('How many retention calls were made:', min_value=0, step=1)
-    RetentionOffersAccepted = st.number_input('Accepted retention offer? (yes=1, no=0):', min_value=0, max_value=1, step=1)
-    CreditRating = st.number_input('Credit Rating (1 to 7):', min_value=1, max_value=7, step=1)
-    
     # Option to upload CSV file
     st.write('### Upload CSV File')
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
     
-    if uploaded_file is None:
-        # If file is not uploaded, show the "Predict" button
-        if st.button('Predict'):
-            input_df = pd.DataFrame({
-                'MonthlyMinutes': [MonthlyMinutes],
-                'Total recurring charges':[TotalRecurringCharge],
-                'Minutes usage change over the given period':[PercChangeMinutes],
-                'Number of Unique Subscriptions':[UniqueSubs],
-                'How many handsets the customer has':[Handsets],
-                'How many days is the current equipment old':[CurrentEquipmentDays],
-                'Owns a refurbished handset? (yes=1, no=0)':[HandsetRefurbished],
-                'Owns a web capable handset? (yes=1, no=0)':[HandsetWebCapable],
-                'How many retention calls were made':[RetentionCalls],
-                'Accepted retention offer? (yes=1, no=0)':[RetentionOffersAccepted],
-                'Credit Rating (1 to 7)':[CreditRating]
-            })
-            churn_risk_level = calculate_churn_risk(input_df)
-            st.write("Churn Risk Level:", churn_risk_level)
-    else:
-        # If file is uploaded, make predictions and calculate churn risk levels
+    # If file is uploaded, display data, make predictions, and allow downloading
+    if uploaded_file is not None:
         try:
             df = pd.read_csv(uploaded_file)
             
@@ -130,6 +88,7 @@ def main():
             st.markdown(href, unsafe_allow_html=True)
         except Exception as e:
             st.error(f"Error processing CSV file: {e}")
+
 # Run the app
 if __name__ == '__main__':
     main()
