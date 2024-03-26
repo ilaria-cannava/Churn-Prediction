@@ -2,4 +2,5 @@ streamlit
 pillow
 numpy
 pandas
+xgboost
 scikit-learn
