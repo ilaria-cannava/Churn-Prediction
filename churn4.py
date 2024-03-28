@@ -44,7 +44,7 @@ def main():
     st.set_page_config(page_title='Customer churn prediction', layout='wide')
     
     # Add image
-    image = Image.open('customer_service_1.jpg')
+    image = Image.open('customer_service_2.png')
     st.image(image, use_column_width=False)
     
     # Add title
@@ -52,6 +52,23 @@ def main():
  
     # Option to upload CSV file
     st.write('### Upload CSV File')
+    # Information about the expected CSV file format
+    st.write('**Header Row**: The first row of the CSV file should contain column headers, each representing a specific attribute or variable.')
+    st.write('- `MonthlyMinutes` (float): How many minutes does the customer use per month?')
+    st.write('- `TotalRecurringCharge` (float): What is the amount of fixed charges?')
+    st.write('- `PercChangeMinutes` (float, can be negative): How has the minutes usage changed over the given time period?')
+    st.write('- `UniqueSubs` (int): How many unique subscriptions does the customer have?')
+    st.write('- `Handsets` (int): How many handsets does the customer own?')
+    st.write('- `CurrentEquipmentDays` (int): How many days is the customer\'s equipment old?')
+    st.write('- `HandsetRefurbished` (1/0): Is the customer using a refurbished handset?')
+    st.write('- `HandsetWebCapable` (1/0): Is the handset web capable?')
+    st.write('- `RetentionCalls` (int): How many retention calls were made?')
+    st.write('- `RetentionOffersAccepted` (1 or 0): Was the retention offer accepted?')
+    st.write('- `CreditRating` (1 to 7): The credit rating of the customer.')
+    st.write('**Data Rows**: Following the header row, each subsequent row should contain data entries. Each entry should align with the corresponding column headers, adhering to the specified data format and content requirements.')
+    st.write('**Data Format**: Data entries should be in a standardized format consistent with the data type of the corresponding column. For example, numerical values should be formatted as numbers, dates should follow a specific date format, and text entries should be appropriately encoded.')
+    st.write('**Content Correspondence**: The content of the CSV file must accurately reflect the information being represented. Each data entry should provide relevant and valid information corresponding to the column it belongs to.')
+    
     uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
     
     # If file is uploaded, display data, make predictions, and allow downloading

@@ -22,6 +22,7 @@ def churn_prediction(input_df):
     prediction = model.predict(input_df)
     return prediction
 
+
 # Function for calculating churn risk levels
 def calculate_churn_risk(input_df):
     y_probabilities = model.predict_proba(input_df)
